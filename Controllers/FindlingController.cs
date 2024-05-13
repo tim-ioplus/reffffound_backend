@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using API.Models;
 using API.Data;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+    //@todo [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class FindlingController : ControllerBase
@@ -27,6 +29,8 @@ namespace API.Controllers
             {
                 var fx = _context.Findlings.Add(findling);
                 findling.Id = fx.Entity.Id;
+                
+                _context.SaveChanges();
             }
             else
             {
@@ -42,10 +46,8 @@ namespace API.Controllers
                 {                
                     return new JsonResult(Conflict(findlingtoCheck));
                 }
-
             }
 
-            _context.SaveChanges();
             return new JsonResult(Ok(findling));
         }
 
@@ -63,10 +65,9 @@ namespace API.Controllers
         public JsonResult Delete(int id)
         {
             var findlingToDelete = _context.Findlings.Find(id);
-
             if(findlingToDelete == null) return new JsonResult(NotFound());
 
-            var res = _context.Findlings.Remove(findlingToDelete);
+            var result = _context.Findlings.Remove(findlingToDelete);
             _context.SaveChanges();
 
             return new JsonResult(NoContent());
@@ -78,23 +79,14 @@ namespace API.Controllers
         {
             var findlings = _context.Findlings.ToList();
 
-            return new JsonResult(Ok(findlings));
-        }
-
-        // Hydrate
-        [HttpGet("Hydrate")]
-        public JsonResult Hydrate()
-        {
-            bool hydrated = _context.Hydrate();
-
-            if(hydrated)
-            {
-                return new JsonResult(Ok());
-            }
-            else
+            if(findlings.Count == 0)
             {
                 return new JsonResult(NotFound());
             }
-        }
+            else
+            {
+                return new JsonResult(Ok(findlings));
+            }
+        }        
     }
 }
