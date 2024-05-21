@@ -41,6 +41,8 @@ public class ApiContext : DbContext
         findling1.Url= "https://i.imgur.com/rGXMMih";
         findling1.Title = "Space loop 3000";
         findling1.Image = "https://i.imgur.com/rGXMMih.jpeg";
+        findling1.Timestamp = DateTime.Parse("14.04.2024 11:12:10");
+
 
               
         var findling2 = new Findling();
@@ -50,6 +52,7 @@ public class ApiContext : DbContext
         findling2.Url= "https://i.imgur.com/r0LmBKH";
         findling2.Title = "Space loop 3000";
         findling2.Image = "https://i.imgur.com/r0LmBKH.jpeg";
+        findling1.Timestamp = DateTime.Parse("14.04.2024 11:12:59");
         
         var f1x = this.Findlings.Add(findling1);
         var f2x = this.Findlings.Add(findling2);
