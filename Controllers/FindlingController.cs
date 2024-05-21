@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using API.Models;
 using API.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Authorization;
+using API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -52,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public JsonResult Create(Findlng findling)
+        public JsonResult Create(Findling findling)
         {
             var fx = _context.Findlings.Add(findling);
             findling.Id = fx.Entity.Id;
@@ -61,6 +58,7 @@ namespace API.Controllers
             return new JsonResult(Ok(findling));            
         }
 
+        // Get
         [HttpGet("{id:int}")]
         public JsonResult Get(int id)
         {
@@ -70,8 +68,23 @@ namespace API.Controllers
             return new JsonResult(Ok(findling));
         }
 
-        [HttpUpdate]
-        
+        // Put
+        [HttpPut]
+        public JsonResult Update(Findling findling)
+        {
+            var findlingInDb = _context.Findlings.Find(findling.Id);
+            if (findlingInDb != null)
+            {
+                findlingInDb = findling;
+                _context.SaveChanges();
+
+                return new JsonResult(Ok(findling));
+            }
+            else 
+            {
+                return new JsonResult(NotFound(findling));
+            }
+        }
 
         // Delete
         [HttpDelete]

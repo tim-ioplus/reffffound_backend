@@ -1,8 +1,8 @@
 namespace API.Models;
 public class Feedling
 {
-    public Findling Findling;
-    public List<LinkedPost> LinkedPosts;
+    public Findling? Findling;
+    public List<LinkedPost>? LinkedPosts;
 }
 
 public class LinkedPost

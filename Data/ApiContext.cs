@@ -14,18 +14,22 @@ public class ApiContext : DbContext
     public bool Hydrate()
     {
         bool hydrated = false;
-        
-        var user1 = new User();
-        user1.Name = "ioplus";
-        user1.EMail = "ip1@ioplus.de";
-        user1.Password = "testpw1";
-        user1.Active = false;
 
-        var user2 = new User();
-        user2.Name = "nerdcoreRIP";
-        user2.EMail = "piffpaff1245@gmail.com";
-        user2.Password = "testpw2";
-        user2.Active = false;
+        var user1 = new User()
+        {
+            Name = "ioplus",
+            EMail = "ip1@ioplus.de",
+            Password = "testpw1",
+            Active = false
+        };
+
+        var user2 = new User
+        {
+            Name = "nerdcoreRIP",
+            EMail = "piffpaff1245@gmail.com",
+            Password = "testpw2",
+            Active = false
+        };
 
         var us1 = this.Users.Add(user1);
         user1.Id = us1.Entity.Id;
