@@ -51,6 +51,16 @@ namespace API.Controllers
             return new JsonResult(Ok(findling));
         }
 
+        [HttpPost]
+        public JsonResult Create(Findlng findling)
+        {
+            var fx = _context.Findlings.Add(findling);
+            findling.Id = fx.Entity.Id;
+            _context.SaveChanges();
+
+            return new JsonResult(Ok(findling));            
+        }
+
         [HttpGet("{id:int}")]
         public JsonResult Get(int id)
         {
@@ -59,6 +69,9 @@ namespace API.Controllers
             
             return new JsonResult(Ok(findling));
         }
+
+        [HttpUpdate]
+        
 
         // Delete
         [HttpDelete]
