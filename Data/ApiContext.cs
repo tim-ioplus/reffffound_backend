@@ -87,8 +87,12 @@ public class ApiContext : DbContext
         var f2x = this.Findlings.Add(findling2);
         this.SaveChanges();
 
-        _hydrated = this.Findlings.Count() == 2;
+        _hydrated = this.Findlings.Count() == 2;      
+
         return _hydrated;
+
+
+
     }
     
 }
