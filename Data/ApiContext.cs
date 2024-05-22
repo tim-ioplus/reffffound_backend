@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using System.Globalization;
 
 namespace API.Data;
 
@@ -7,13 +8,16 @@ public class ApiContext : DbContext
 {
     public DbSet<Findling> Findlings {get; set;}
     public DbSet<User> Users {get; set;}
+
+    private bool _hydrated = false;
     public ApiContext(DbContextOptions<ApiContext> options) : base(options)
     {
+        _hydrated = false;
     }
 
     public bool Hydrate()
     {
-        bool hydrated = false;
+        if(_hydrated) return _hydrated;
 
         var user1 = new User()
         {
@@ -38,6 +42,10 @@ public class ApiContext : DbContext
 
         this.SaveChanges();
 
+        string format = "dd.MM.yyyy HH:mm:ss";
+        CultureInfo provider = new CultureInfo("de-de");
+        const DateTimeStyles none = DateTimeStyles.None;
+
         var findling1 = new Findling();
         findling1.Guid = Guid.NewGuid().ToString();
         findling1.UserId = user1.Id;
@@ -45,9 +53,16 @@ public class ApiContext : DbContext
         findling1.Url= "https://i.imgur.com/rGXMMih";
         findling1.Title = "Space loop 3000";
         findling1.Image = "https://i.imgur.com/rGXMMih.jpeg";
-        findling1.Timestamp = DateTime.Parse("14.04.2024 11:12:10");
-
-
+        DateTime dt1 = DateTime.Now;
+        if (DateTime.TryParseExact("14.04.2024 11:12:10", format, provider, none, out dt1))
+		{
+            Console.Write("Testdata parsing Datetime successful");
+            findling1.Timestamp = dt1;
+        }
+        else
+        {
+            Console.Write("Testdata parsing Datetime not successful");
+        }
               
         var findling2 = new Findling();
         findling2.Guid = Guid.NewGuid().ToString();
@@ -56,15 +71,24 @@ public class ApiContext : DbContext
         findling2.Url= "https://i.imgur.com/r0LmBKH";
         findling2.Title = "Space loop 3000";
         findling2.Image = "https://i.imgur.com/r0LmBKH.jpeg";
-        findling1.Timestamp = DateTime.Parse("14.04.2024 11:12:59");
+        
+        DateTime dt2 = DateTime.Now;
+        if (DateTime.TryParseExact("14.04.2024 11:12:59", format, provider, none, out dt2))
+		{
+            Console.Write("Testdata parsing Datetime successful");
+            findling2.Timestamp = dt2;
+        }
+        else
+        {
+            Console.Write("Testdata parsing Datetime not successful");
+        }        
         
         var f1x = this.Findlings.Add(findling1);
         var f2x = this.Findlings.Add(findling2);
         this.SaveChanges();
 
-        hydrated = this.Findlings.Count() == 2;
-
-        return hydrated;
+        _hydrated = this.Findlings.Count() == 2;
+        return _hydrated;
     }
     
 }
