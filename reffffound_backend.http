@@ -1,6 +1,6 @@
-@reffffound_backend_HostAddress = http://localhost:5033
+@reffffound_backend_HostAddress = http://localhost:5080
 
-GET {{reffffound_backend_HostAddress}}/weatherforecast/
+GET {{reffffound_backend_HostAddress}}/api/findling
 Accept: application/json
 
 ###

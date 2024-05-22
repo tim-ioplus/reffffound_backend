@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using API.Models;
@@ -33,6 +34,32 @@ namespace API.Controllers
             else
             {
                 return new JsonResult(NotFound());
+            }
+        }
+
+        // Hydrate
+        [HttpGet("TestFindlingModelValidation")]
+        public JsonResult TestFindlingModelValidation()
+        {
+            bool hydrated = _context.Hydrate();
+
+            if(_context.Findlings.All(f =>
+                    !string.IsNullOrEmpty(f.Guid) && 
+                    f.Id > 0 &&
+                    f.UserId > 0 &&
+                    !string.IsNullOrEmpty(f.UserName) &&
+                    !string.IsNullOrEmpty(f.Url) && 
+                    !string.IsNullOrEmpty(f.Title) &&
+                    !string.IsNullOrEmpty(f.Image) && 
+                    !string.IsNullOrEmpty(f.Timestamp.ToString()) &&
+                    f.Timestamp > DateTime.MinValue && f.Timestamp < DateTime.MaxValue
+                    ))
+            {
+                return new JsonResult(Ok());
+            }
+            else
+            {
+                return new JsonResult(ValidationProblem());
             }
         }
     }
