@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using System.Globalization;
+using System.Text.Json;
 
 namespace API.Data;
 
@@ -8,6 +9,7 @@ public class ApiContext : DbContext
 {
     public DbSet<Findling> Findlings {get; set;}
     public DbSet<User> Users {get; set;}
+    public string ContentRootPath { get; set; }
 
     private bool _hydrated = false;
     public ApiContext(DbContextOptions<ApiContext> options) : base(options)
@@ -17,82 +19,45 @@ public class ApiContext : DbContext
 
     public bool Hydrate()
     {
-        if(_hydrated) return _hydrated;
+        if(this.Users.Any() && this.Findlings.Any()) return true;
 
-        var user1 = new User()
+        var usersMockDataFilePath = Path.Combine(ContentRootPath,"Data/users.json");
+        if(File.Exists(usersMockDataFilePath))
         {
-            Name = "ioplus",
-            EMail = "ip1@ioplus.de",
-            Password = "testpw1",
-            Active = false
-        };
-
-        var user2 = new User
-        {
-            Name = "nerdcoreRIP",
-            EMail = "piffpaff1245@gmail.com",
-            Password = "testpw2",
-            Active = false
-        };
-
-        var us1 = this.Users.Add(user1);
-        user1.Id = us1.Entity.Id;
-        var us2 = this.Users.Add(user2);
-        user2.Id = us2.Entity.Id;
-
-        this.SaveChanges();
-
-        string format = "dd.MM.yyyy HH:mm:ss";
-        CultureInfo provider = new CultureInfo("de-de");
-        const DateTimeStyles none = DateTimeStyles.None;
-
-        var findling1 = new Findling();
-        findling1.Guid = Guid.NewGuid().ToString();
-        findling1.UserId = user1.Id;
-        findling1.UserName = user1.Name;
-        findling1.Url= "https://i.imgur.com/rGXMMih";
-        findling1.Title = "Space loop 3000";
-        findling1.Image = "https://i.imgur.com/rGXMMih.jpeg";
-        DateTime dt1 = DateTime.Now;
-        if (DateTime.TryParseExact("14.04.2024 11:12:10", format, provider, none, out dt1))
-		{
-            Console.Write("Testdata parsing Datetime successful");
-            findling1.Timestamp = dt1;
+            string usersText = File.ReadAllText(usersMockDataFilePath);
+            if(string.IsNullOrWhiteSpace(usersText)) return false;
+            
+            var users = JsonSerializer.Deserialize<List<User>>(usersText);
+            if(users != null && users.Count > 0)
+            {
+                users.ForEach(user => this.Users.Add(user));
+                this.SaveChanges();
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+
+        var findlingsMockDataFilePath = Path.Combine(ContentRootPath,"Data/findlings.json");
+        if(File.Exists(findlingsMockDataFilePath))
         {
-            Console.Write("Testdata parsing Datetime not successful");
-        }
-              
-        var findling2 = new Findling();
-        findling2.Guid = Guid.NewGuid().ToString();
-        findling2.UserId = user1.Id;
-        findling2.UserName = user1.Name;
-        findling2.Url= "https://i.imgur.com/r0LmBKH";
-        findling2.Title = "Space loop 3000";
-        findling2.Image = "https://i.imgur.com/r0LmBKH.jpeg";
-        
-        DateTime dt2 = DateTime.Now;
-        if (DateTime.TryParseExact("14.04.2024 11:12:59", format, provider, none, out dt2))
-		{
-            Console.Write("Testdata parsing Datetime successful");
-            findling2.Timestamp = dt2;
-        }
-        else
-        {
-            Console.Write("Testdata parsing Datetime not successful");
+            string findlingsText = File.ReadAllText(findlingsMockDataFilePath);
+            if(string.IsNullOrWhiteSpace(findlingsText)) return false;
+
+            var findlings = JsonSerializer.Deserialize<List<Findling>>(findlingsText);
+            if(findlings != null && findlings.Count > 0)
+            {
+                findlings.ForEach(findling => this.Findlings.Add(findling));
+                this.SaveChanges();
+            }
+            else
+            {
+                return false;
+            }
         }        
-        
-        var f1x = this.Findlings.Add(findling1);
-        var f2x = this.Findlings.Add(findling2);
-        this.SaveChanges();
 
-        _hydrated = this.Findlings.Count() == 2;      
-
+        _hydrated = this.Users.Count() >= 5 && this.Findlings.Count() >= 20;
         return _hydrated;
-
-
-
-    }
-    
+    } 
 }

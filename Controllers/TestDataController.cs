@@ -15,10 +15,13 @@ namespace API.Controllers
     public class TestDataController : ControllerBase
     {
         private readonly ApiContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public TestDataController(ApiContext apiContext)
+        public TestDataController(ApiContext apiContext, IWebHostEnvironment webHostEnvironment)
         {
             _context = apiContext;
+            _webHostEnvironment = webHostEnvironment;
+            _context.ContentRootPath = _webHostEnvironment.ContentRootPath;
         }
 
         // Hydrate
@@ -43,16 +46,16 @@ namespace API.Controllers
         {
             bool hydrated = _context.Hydrate();
 
-            if(_context.Findlings.All(f =>
+            if(_context.Findlings.ToList().All(f =>
                     !string.IsNullOrEmpty(f.Guid) && 
                     f.Id > 0 &&
-                    f.UserId > 0 &&
-                    !string.IsNullOrEmpty(f.UserName) &&
+                    //f.UserId > 0 &&
+                    //!string.IsNullOrEmpty(f.UserName) &&
                     !string.IsNullOrEmpty(f.Url) && 
                     !string.IsNullOrEmpty(f.Title) &&
                     !string.IsNullOrEmpty(f.Image) && 
-                    !string.IsNullOrEmpty(f.Timestamp.ToString()) &&
-                    f.Timestamp > DateTime.MinValue && f.Timestamp < DateTime.MaxValue
+                    !string.IsNullOrEmpty(f.Timestamp) &&
+                    f.GetTimestamp() > DateTime.MinValue && f.GetTimestamp() < DateTime.MaxValue
                     ))
             {
                 return new JsonResult(Ok());

@@ -1,9 +1,7 @@
-{
-    "users": [  
-    {"Id" : "1", "Name": "koelleforniadreamin", "Link":"/user/koelleforniadreamin", "Count" : "9", "EMail": "a@b.c", "Password": "pw1","Active": "true" },
-    {"Id" : "2", "Name": "anliberant", "Link":"/user/anliberant", "Count" : "6", "EMail": "b@b.c", "Password": "pw2","Active": "true" },
-    {"Id" : "3", "Name": "smalltownwitch", "Link":"/user/smalltownwitch", "Count" :"3", "EMail": "c@b.c", "Password": "pw3","Active": "true" },
-    {"Id" : "4", "Name": "hypetype", "Link":"/user/hypetype", "Count" : "7", "EMail": "d@b.c", "Password": "pw4","Active": "true" },
-    {"Id" : "5", "Name": "charlienoir',link: '/user/charlienoir", "Count": "3", "EMail": "e@b.c", "Password": "pw5","Active": "true" }
-  ]
-}
+[  
+  {"Id" : 1, "Name": "koelleforniadreamin", "Link":"/user/koelleforniadreamin", "Count" : 9, "EMail": "a@b.c", "Password": "pw1","Active": true },
+  {"Id" : 2, "Name": "anliberant", "Link":"/user/anliberant", "Count" : 6, "EMail": "b@b.c", "Password": "pw2","Active": true },
+  {"Id" : 3, "Name": "smalltownwitch", "Link":"/user/smalltownwitch", "Count" : 3, "EMail": "c@b.c", "Password": "pw3","Active": true },
+  {"Id" : 4, "Name": "hypetype", "Link":"/user/hypetype", "Count" : 7, "EMail": "d@b.c", "Password": "pw4","Active": true },
+  {"Id" : 5, "Name": "charlienoir", "Link": "/user/charlienoir","Count": 3, "EMail": "e@b.c", "Password": "pw5","Active": true }
+]
