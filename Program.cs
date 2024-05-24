@@ -1,15 +1,24 @@
 using Microsoft.EntityFrameworkCore;
 using API.Data;
+using API.Auth;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("ReffffoundDd"));
+builder.Services.AddDbContext<ApiDataContext>(options => options.UseInMemoryDatabase("Reffffound_ApiDataDb"));
+builder.Services.AddDbContext<ApiAuthContext>(options => options.UseInMemoryDatabase("Reffffound_ApiAuthDb"));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication();
+
+
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<ApiAuthContext>();
+    
 
 var app = builder.Build();
 
@@ -21,9 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
+app.MapIdentityApi<IdentityUser>();
 app.MapControllers();
 
 app.Run();

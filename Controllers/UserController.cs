@@ -13,9 +13,9 @@ namespace API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly ApiContext _context;
+        private readonly ApiDataContext _context;
 
-        public UserController(ApiContext apiContext)
+        public UserController(ApiDataContext apiContext)
         {
             _context = apiContext;
         }
@@ -29,7 +29,6 @@ namespace API.Controllers
                 var usx = _context.Users.Add(user);
                 if(usx.Entity.Id != 0)
                 {
-                    usx.Entity.Password = "";
                     return new JsonResult(Ok(usx.Entity));
                 }
                 else
@@ -119,22 +118,6 @@ namespace API.Controllers
             else
             {
                 return new JsonResult(Ok(users));
-            }
-        }
-
-        // A Authenticate
-        [HttpGet("Authenticate")]
-        public JsonResult Authenticate(User user)
-        {
-            // @todo implement Authentication, OAuth 
-            bool authenticated = _context.Users.Single(u => u.Name.Equals(user.Name) && u.Password.Equals(user.Password)) != null;
-            if(authenticated)
-            {
-                return new JsonResult(Ok());
-            }
-            else
-            {
-                return new JsonResult(NotFound());
             }
         }
     }

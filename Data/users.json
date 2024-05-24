@@ -1,7 +1,7 @@
 [  
-  {"Id" : 1, "Name": "koelleforniadreamin", "Link":"/user/koelleforniadreamin", "Count" : 9, "EMail": "a@b.c", "Password": "pw1","Active": true },
-  {"Id" : 2, "Name": "anliberant", "Link":"/user/anliberant", "Count" : 6, "EMail": "b@b.c", "Password": "pw2","Active": true },
-  {"Id" : 3, "Name": "smalltownwitch", "Link":"/user/smalltownwitch", "Count" : 3, "EMail": "c@b.c", "Password": "pw3","Active": true },
-  {"Id" : 4, "Name": "hypetype", "Link":"/user/hypetype", "Count" : 7, "EMail": "d@b.c", "Password": "pw4","Active": true },
-  {"Id" : 5, "Name": "charlienoir", "Link": "/user/charlienoir","Count": 3, "EMail": "e@b.c", "Password": "pw5","Active": true }
+  {"Id" : 1, "Name": "koelleforniadreamin", "EMail": "a@b.c", "Link":"/user/koelleforniadreamin", "Count" : 9 },
+  {"Id" : 2, "Name": "anliberant", "EMail": "b@b.c", "Link":"/user/anliberant", "Count" : 6 },
+  {"Id" : 3, "Name": "smalltownwitch", "EMail": "c@b.c", "Link":"/user/smalltownwitch", "Count" : 3 },
+  {"Id" : 4, "Name": "hypetype", "EMail": "d@b.c", "Link":"/user/hypetype", "Count" : 7},
+  {"Id" : 5, "Name": "charlienoir", "EMail": "e@b.c", "Link": "/user/charlienoir","Count": 3}
 ]

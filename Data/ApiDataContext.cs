@@ -5,14 +5,14 @@ using System.Text.Json;
 
 namespace API.Data;
 
-public class ApiContext : DbContext
+public class ApiDataContext : DbContext
 {
     public DbSet<Findling> Findlings {get; set;}
     public DbSet<User> Users {get; set;}
     public string ContentRootPath { get; set; }
 
     private bool _hydrated = false;
-    public ApiContext(DbContextOptions<ApiContext> options) : base(options)
+    public ApiDataContext(DbContextOptions<ApiDataContext> options) : base(options)
     {
         _hydrated = false;
         this.ContentRootPath = "";

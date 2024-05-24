@@ -14,10 +14,10 @@ namespace API.Controllers
     [ApiController]
     public class TestDataController : ControllerBase
     {
-        private readonly ApiContext _context;
+        private readonly ApiDataContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public TestDataController(ApiContext apiContext, IWebHostEnvironment webHostEnvironment)
+        public TestDataController(ApiDataContext apiContext, IWebHostEnvironment webHostEnvironment)
         {
             _context = apiContext;
             _webHostEnvironment = webHostEnvironment;

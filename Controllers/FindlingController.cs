@@ -11,9 +11,9 @@ namespace API.Controllers
     [ApiController]
     public class FindlingController : ControllerBase
     {
-        private readonly ApiContext _context;
+        private readonly ApiDataContext _context;
 
-        public FindlingController(ApiContext apiContext)
+        public FindlingController(ApiDataContext apiContext)
         {
             _context = apiContext;
         }
@@ -104,7 +104,7 @@ namespace API.Controllers
             }
 
             _context.SaveChanges();
-                        
+
             return new JsonResult(Ok());
         }
 
