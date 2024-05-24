@@ -1,6 +1,7 @@
 using System.Xml.Linq;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -79,13 +80,14 @@ namespace API.Controllers
             {
                 _context.Findlings.Update(findling);
                 _context.SaveChanges();
-
-                return new JsonResult(Ok(findling));
             }
             else 
             {
                 return new JsonResult(NotFound(findling));
             }
+
+
+            return new JsonResult(Ok(findling));
         }
 
         // Delete
@@ -96,9 +98,14 @@ namespace API.Controllers
             if(findlingToDelete == null) return new JsonResult(NotFound());
 
             var result = _context.Findlings.Remove(findlingToDelete);
-            _context.SaveChanges();
+            if(result.State != Microsoft.EntityFrameworkCore.EntityState.Deleted)
+            {
+                return new JsonResult(Conflict());
+            }
 
-            return new JsonResult(NoContent());
+            _context.SaveChanges();
+                        
+            return new JsonResult(Ok());
         }
 
         // List
