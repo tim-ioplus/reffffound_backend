@@ -72,10 +72,9 @@ namespace API.Controllers
         [HttpPut]
         public JsonResult Update(Findling findling)
         {
-            var findlingInDb = _context.Findlings.Find(findling.Id);
-            if (findlingInDb != null)
+            if (_context.Findlings.Any(f => f.Id ==findling.Id))
             {
-                findlingInDb = findling;
+                _context.Findlings.Update(findling);
                 _context.SaveChanges();
 
                 return new JsonResult(Ok(findling));

@@ -15,6 +15,7 @@ public class ApiContext : DbContext
     public ApiContext(DbContextOptions<ApiContext> options) : base(options)
     {
         _hydrated = false;
+        this.ContentRootPath = "";
     }
 
     public bool Hydrate()
