@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using API.Data;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,8 +52,10 @@ namespace API.Controllers
         [HttpPost]
         public JsonResult Create(Findling findling)
         {
+            findling.Guid = Guid.NewGuid().ToString().Replace("-","");
+            findling.Furl = "/image/" + findling.Guid;
+
             var fx = _context.Findlings.Add(findling);
-            findling.Id = fx.Entity.Id;
             _context.SaveChanges();
 
             return new JsonResult(Ok(findling));            
