@@ -109,10 +109,13 @@ namespace API.Controllers
         }
 
         // List
-        [HttpGet("List")]
-        public JsonResult List()
+        [HttpGet("{page:int}")]
+        public JsonResult List(int page)
         {
-            var findlings = _context.Findlings.ToList();
+            int skipCount = (page-1)*10;
+            int takeCount = 10;
+
+            var findlings = _context.Findlings.Skip(skipCount).Take(takeCount).OrderBy(f => f.Id).ToList();
 
             if(findlings.Count == 0)
             {
@@ -122,6 +125,22 @@ namespace API.Controllers
             {
                 return new JsonResult(Ok(findlings));
             }
-        }        
+        }
+
+        // List
+        [HttpGet("ListAll")]
+        public JsonResult List()
+        {
+            var findlings = _context.Findlings.OrderBy(f => f.Id).ToList();;
+
+            if(findlings.Count == 0)
+            {
+                return new JsonResult(NotFound());
+            }
+            else
+            {
+                return new JsonResult(Ok(findlings));
+            }
+        } 
     }
 }

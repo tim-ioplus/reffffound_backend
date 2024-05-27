@@ -58,6 +58,8 @@ public class ApiDataContext : DbContext
             }
         }        
 
+        this.Findlings.OrderBy(f => f.Id);
+
         _hydrated = this.Users.Count() >= 5 && this.Findlings.Count() >= 20;
         return _hydrated;
     } 
