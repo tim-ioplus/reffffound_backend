@@ -112,6 +112,8 @@ namespace API.Controllers
         [HttpGet("{page:int}")]
         public JsonResult List(int page)
         {
+            this.HttpContext.Response.Headers.AccessControlAllowOrigin = "http://localhost:4200";
+            
             int skipCount = (page-1)*10;
             int takeCount = 10;
 
