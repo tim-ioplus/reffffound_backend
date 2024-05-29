@@ -1,16 +1,20 @@
 
+using System.Net.Sockets;
+
 namespace API.Models;
 public class User 
 {
-    public User(string name, string eMail)
+    public User( string eMail, string name="", string link="") 
     {
-        Name = name ?? throw new ArgumentNullException(nameof(name));
         EMail = eMail ?? throw new ArgumentNullException(nameof(eMail));
+        Name = name;
+        Link = link;
     }
     public User() 
     {
         Name = "";
         EMail = "";
+        Link = "";
     }
 
     public int Id {get; set;}
